@@ -29,6 +29,7 @@
 "portable"
 ],
 "icon": "assets/icon.ico"
-}
+},
+  "publish": null
 }
 }
