@@ -1,32 +1,31 @@
 name: Build TaskPilot Windows App
 
 on:
-push:
-branches: [ main ]
+  push:
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
-build-windows:
+  build-windows:
+    runs-on: windows-latest
 
-runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-- name: Checkout repository
-uses: actions/checkout@v4
+      - name: Install dependencies
+        run: npm install
 
-- name: Setup Node
-uses: actions/setup-node@v4
-with:
-node-version: 20
+      - name: Build Windows app
+        run: npm run build:win
 
-- name: Install dependencies
-run: npm install
-
-- name: Build Windows app
-run: npm run build:win
-
-- name: Upload EXE
-uses: actions/upload-artifact@v4
-with:
-name: TaskPilot
-path: dist/*.exe
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: TaskPilot-Build
+          path: dist/*.exe
